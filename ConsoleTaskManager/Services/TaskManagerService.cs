@@ -49,7 +49,7 @@ namespace ConsoleTaskManager.Services
 
         public void RemoveTask(int taskId)
         {
-            var removedTask = _taskRepository.RemoveTask(taskId);
+            Task removedTask = _taskRepository.RemoveTask(taskId);
             if (removedTask != null)
             {
                 _logger.LogInfo($"Task removed: {taskId}");
