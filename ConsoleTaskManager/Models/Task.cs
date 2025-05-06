@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
 
-namespace ConsoleTaskManager
+namespace ConsoleTaskManager.Models
 {
-    public class Task
+    public class Task : Task
     {
         public string Description { get; set; }
         public bool IsCompleted { get; set; }
@@ -25,7 +24,7 @@ namespace ConsoleTaskManager
 
         public string ShowTask()
         {
-            return $"{(IsCompleted ? "[X]" : "[ ]")} {Description}";
+            return $"{Description} - {(IsCompleted ? "Completed" : "Not Completed")}";
         }
     }
 }
