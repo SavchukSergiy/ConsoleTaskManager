@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ConsoleTaskManager": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
