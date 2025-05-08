@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ConsoleTaskManager.Models
+﻿namespace ConsoleTaskManager.Models
 {
-    public class Task : Task
+    public class ClientTask : IClientTask
     {
         public string Description { get; set; }
         public bool IsCompleted { get; set; }
 
-        public Task(string description)
+        public ClientTask(string description)
         {
             Description = description;
             IsCompleted = false;

@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ConsoleTaskManager.Models;
+﻿using ConsoleTaskManager.Models;
 
 namespace ConsoleTaskManager.Services
 {
     public interface ITaskManagerService
     {
         void AddTask(string description);
-        List<Task> GetAllTasks();
+        List<ClientTask> GetAllTasks();
         void MarkTaskAsCompleted(int taskId);
         void RemoveTask(int taskId);
         void SaveTasksToFile(string filePath);

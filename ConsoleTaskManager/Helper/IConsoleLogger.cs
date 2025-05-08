@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleTaskManager.Helper
 {
-    public interface ILogger
+    public interface IConsoleLogger
     {
         void LogInfo(string message);
         void LogWarning(string message);

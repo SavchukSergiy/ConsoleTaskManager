@@ -1,20 +1,15 @@
 ﻿using ConsoleTaskManager.Helper;
 using ConsoleTaskManager.Models;
 using ConsoleTaskManager.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleTaskManager.Services
 {
     public class TaskManagerService : ITaskManagerService
     {
         private readonly ITaskRepository _taskRepository;
-        private readonly ILogger _logger;
+        private readonly IConsoleLogger _logger;
 
-        public TaskManagerService(ITaskRepository taskRepository, ILogger logger)
+        public TaskManagerService(ITaskRepository taskRepository, IConsoleLogger logger)
         {
             _taskRepository = taskRepository;
             _logger = logger;
@@ -22,12 +17,12 @@ namespace ConsoleTaskManager.Services
         }
         public void AddTask(string description)
         {
-            var newTask = new Task(description);
+            var newTask = new ClientTask(description);
             _taskRepository.AddTask(newTask);
             _logger.LogInfo($"Task added: {description}");
         }
 
-        public List<Task> GetAllTasks()
+        public List<ClientTask> GetAllTasks()
         {
             return _taskRepository.GetAllTasks();
         }
@@ -49,7 +44,7 @@ namespace ConsoleTaskManager.Services
 
         public void RemoveTask(int taskId)
         {
-            Task removedTask = _taskRepository.RemoveTask(taskId);
+            ClientTask removedTask = _taskRepository.RemoveTask(taskId);
             if (removedTask != null)
             {
                 _logger.LogInfo($"Task removed: {taskId}");
@@ -75,15 +70,13 @@ namespace ConsoleTaskManager.Services
 
         public void LoadTasksFromFile(string filePath)
         {
-            try
-            {
-                _taskRepository.LoadTasksFromFile(filePath);
+             var result = _taskRepository.LoadTasksFromFile(filePath);
+                if (!result)
+                {
+                    _logger.LogError($"Failed to load tasks from file: {filePath}");
+                    return;
+                }
                 _logger.LogInfo($"Tasks loaded from file: {filePath}");
-            }
-            catch (Exception)
-            {
-                _logger.LogError($"Error loading tasks from file: {filePath}");
-            }
         }
     }
 }

@@ -1,35 +1,29 @@
 ﻿using ConsoleTaskManager.Helper;
 using ConsoleTaskManager.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleTaskManager.Repository
 {
     public class TaskRepository : ITaskRepository
     {
-        private readonly List<Task> _tasks = new List<Task>();
-        private readonly ILogger _logger;
+        private readonly List<ClientTask> _tasks = new List<ClientTask>();
+        private readonly IConsoleLogger _logger;
 
-        public TaskRepository(ILogger logger)
+        public TaskRepository(IConsoleLogger logger)
         {
             _logger = logger;
             _logger.LogInfo("TaskRepository initialized.");
         }
-        public void AddTask(Task task)
+        public void AddTask(ClientTask task)
         {
             _tasks.Add(task);
         }
 
-        public List<Task> GetAllTasks()
+        public List<ClientTask> GetAllTasks()
         {
             return _tasks;
         }
 
-        public Task? GetTaskById(int taskId)
+        public ClientTask? GetTaskById(int taskId)
         {
             if (taskId < 0 || taskId >= _tasks.Count)
             {
@@ -39,13 +33,25 @@ namespace ConsoleTaskManager.Repository
             return _tasks[taskId];
         }
 
-        public void LoadTasksFromFile(string filePath)
+        public ClientTask? RemoveTask(int taskId)
+        {
+            if (taskId < 0 || taskId >= _tasks.Count)
+            {
+                _logger.LogError($"Task with ID {taskId} not found.");
+                return null;
+            }
+            var removedTask = _tasks[taskId];
+            _tasks.RemoveAt(taskId);
+            return removedTask;
+        }
+
+        public bool LoadTasksFromFile(string filePath)
         {
             _tasks.Clear();
             if (!File.Exists(filePath))
             {
                 _logger.LogError($"File not found: {filePath}");
-                return;
+                return false;
             }
             try
             {
@@ -60,9 +66,9 @@ namespace ConsoleTaskManager.Repository
                         if (parts.Length == 2)
                         {
                             string description = parts[0];
-                            if (bool.TryParse(parts[1], out bool done))
+                            if (bool.TryParse(parts[1], out bool completed))
                             {
-                                _tasks.Add(new Task(description) { IsCompleted = done });
+                                _tasks.Add(new ClientTask(description) { IsCompleted = completed });
                             }
                             else
                             {
@@ -71,24 +77,13 @@ namespace ConsoleTaskManager.Repository
                         }
                     }
                 }
+                return true;
             }
             catch (Exception)
             {
-
                 _logger.LogError($"Error reading file: {filePath}");
+                return false;
             }
-        }
-
-        public Task? RemoveTask(int taskId)
-        {
-            if (taskId < 0 || taskId >= _tasks.Count)
-            {
-                _logger.LogError($"Task with ID {taskId} not found.");
-                return null;
-            }
-            var removedTask = _tasks[taskId];
-            _tasks.RemoveAt(taskId);
-            return removedTask;
         }
 
         public void SaveTasksToFile(string filePath)

@@ -1,13 +1,12 @@
 ﻿using ConsoleTaskManager.Helper;
 using ConsoleTaskManager.Repository;
 using ConsoleTaskManager.Services;
-using System.Runtime.CompilerServices;
 
 public class Program
 {
-    private static ITaskManagerService _taskManagerService;
+    private static ITaskManagerService? _taskManagerService;
     private static string _filePath = "newTask.txt";
-    public static async Task Main(string[] args)
+    public static void Main(string[] args)
     {
         var logger = new ConsoleLogger();
         var taskRepository = new TaskRepository(logger);
@@ -25,7 +24,9 @@ public class Program
             Console.WriteLine("5. Save Tasks to File");
             Console.WriteLine("6. Load Tasks from File");
             Console.WriteLine("7. Exit");
+            
             var choice = Console.ReadLine();
+            
             switch (choice)
             {
                 case "1":
@@ -37,7 +38,7 @@ public class Program
                     var tasks = _taskManagerService.GetAllTasks();
                     foreach (var task in tasks)
                     {
-                        Console.WriteLine(task);
+                        Console.WriteLine(task.Description);
                     }
                     break;
                 case "3":
