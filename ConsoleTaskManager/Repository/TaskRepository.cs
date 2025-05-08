@@ -104,9 +104,14 @@ namespace ConsoleTaskManager.Repository
             }
         }
 
-        public void UpdateTask(int taskId)
+        public void UpdateTask(ClientTask task)
         {
-            throw new NotImplementedException();
+            var clientTask = _tasks.FirstOrDefault(t => t.Description == task.Description);
+
+            if (clientTask != null)
+            {
+                clientTask.MarkAsCompleted();
+            }
         }
     }
 }

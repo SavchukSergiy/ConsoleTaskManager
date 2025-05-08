@@ -38,7 +38,7 @@ public class Program
                     var tasks = _taskManagerService.GetAllTasks();
                     foreach (var task in tasks)
                     {
-                        Console.WriteLine(task.Description);
+                        Console.WriteLine($"{task.Description} {task.IsCompleted}");
                     }
                     break;
                 case "3":

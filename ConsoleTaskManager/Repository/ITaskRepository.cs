@@ -6,7 +6,7 @@ namespace ConsoleTaskManager.Repository
     {
         void AddTask(ClientTask task);
         ClientTask? RemoveTask(int taskId);
-        void UpdateTask(int taskId);
+        void UpdateTask(ClientTask task);
         List<ClientTask> GetAllTasks();
         ClientTask? GetTaskById(int taskId);
         void SaveTasksToFile(string filePath);

@@ -32,8 +32,7 @@ namespace ConsoleTaskManager.Services
             var task = _taskRepository.GetTaskById(taskId);
             if (task != null)
             {
-                task.MarkAsCompleted();
-                _taskRepository.UpdateTask(taskId);
+                _taskRepository.UpdateTask(task);
                 _logger.LogInfo($"Task marked as completed: {taskId}");
             }
             else
