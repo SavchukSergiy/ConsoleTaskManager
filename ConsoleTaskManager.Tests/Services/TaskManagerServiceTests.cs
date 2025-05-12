@@ -73,5 +73,21 @@ namespace ConsoleTaskManager.Tests.Services
             _taskRepositoryMock.Verify(tr => tr.UpdateTask(task), Times.Once);
             _loggerMock.Verify(l => l.LogInfo(It.Is<string>(s => s.Contains("Task marked as completed:"))), Times.Once);
         }
+
+        [Fact]
+        public void RemoveTask_ShouldRemoveTaskAndLogInfo()
+        {
+            // Arrange
+            int taskId = 1;
+            var task = new ClientTask("Test Task");
+            _taskRepositoryMock.Setup(tr => tr.RemoveTask(taskId)).Returns(task);
+
+            // Act
+            _taskManagerService.RemoveTask(taskId);
+
+            // Assert
+            _taskRepositoryMock.Verify(tr => tr.RemoveTask(taskId), Times.Once);
+            _loggerMock.Verify(l => l.LogInfo(It.Is<string>(s => s.Contains("Task removed:"))), Times.Once);
+        }
     }
 }
