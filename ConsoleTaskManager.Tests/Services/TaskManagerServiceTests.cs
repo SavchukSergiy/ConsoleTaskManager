@@ -89,5 +89,33 @@ namespace ConsoleTaskManager.Tests.Services
             _taskRepositoryMock.Verify(tr => tr.RemoveTask(taskId), Times.Once);
             _loggerMock.Verify(l => l.LogInfo(It.Is<string>(s => s.Contains("Task removed:"))), Times.Once);
         }
+
+        [Fact]
+        public void SaveTasksToFile_ShouldSaveTasksAndLogInfo()
+        {
+            // Arrange
+            string filePath = "tasks.txt";
+
+            // Act
+            _taskManagerService.SaveTasksToFile(filePath);
+
+            // Assert
+            _taskRepositoryMock.Verify(tr => tr.SaveTasksToFile(filePath), Times.Once);
+            _loggerMock.Verify(l => l.LogInfo(It.Is<string>(s => s.Contains("Tasks saved to file:"))), Times.Once);
+        }
+
+        [Fact]
+        public void LoadTasksFromFile_ShouldLoadTasksAndLogInfo()
+        {
+            // Arrange
+            string filePath = "tasks.txt";
+
+            // Act
+            _taskManagerService.LoadTasksFromFile(filePath);
+
+            // Assert
+            _taskRepositoryMock.Verify(tr => tr.LoadTasksFromFile(filePath), Times.Once);
+            _loggerMock.Verify(l => l.LogInfo(It.Is<string>(s => s.Contains("Tasks loaded from file:"))), Times.Once);
+        }
     }
 }
