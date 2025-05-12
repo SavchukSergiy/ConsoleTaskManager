@@ -39,5 +39,23 @@ namespace ConsoleTaskManager.Tests.Services
             _taskRepositoryMock.Verify(tr => tr.AddTask(It.IsAny<ClientTask>()), Times.Once);
             _loggerMock.Verify(l => l.LogInfo(It.Is<string>(s => s.Contains("Task added:"))), Times.Once);
         }
+
+        [Fact]
+        public void GetAllTasks_ShouldReturnAllTasks()
+        {
+            // Arrange
+            var tasks = new List<ClientTask>
+            {
+                new ClientTask("Task 1"),
+                new ClientTask("Task 2")
+            };
+            _taskRepositoryMock.Setup(tr => tr.GetAllTasks()).Returns(tasks);
+
+            // Act
+            var result = _taskManagerService.GetAllTasks();
+
+            // Assert
+            Assert.Equal(tasks, result);
+        }
     }
 }
