@@ -57,5 +57,21 @@ namespace ConsoleTaskManager.Tests.Services
             // Assert
             Assert.Equal(tasks, result);
         }
+
+        [Fact]
+        public void MarkTaskAsCompleted_ShouldMarkTaskAndLogInfo()
+        {
+            // Arrange
+            int taskId = 1;
+            var task = new ClientTask("Test Task");
+            _taskRepositoryMock.Setup(tr => tr.GetTaskById(taskId)).Returns(task);
+
+            // Act
+            _taskManagerService.MarkTaskAsCompleted(taskId);
+
+            // Assert
+            _taskRepositoryMock.Verify(tr => tr.UpdateTask(task), Times.Once);
+            _loggerMock.Verify(l => l.LogInfo(It.Is<string>(s => s.Contains("Task marked as completed:"))), Times.Once);
+        }
     }
 }
