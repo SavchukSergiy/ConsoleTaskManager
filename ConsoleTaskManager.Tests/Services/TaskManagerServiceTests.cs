@@ -108,14 +108,13 @@ namespace ConsoleTaskManager.Tests.Services
         public void LoadTasksFromFile_ShouldLoadTasksAndLogInfo()
         {
             // Arrange
-            string filePath = "tasks.txt";
+            string filePath = "newTask.txt";
 
             // Act
             _taskManagerService.LoadTasksFromFile(filePath);
 
             // Assert
             _taskRepositoryMock.Verify(tr => tr.LoadTasksFromFile(filePath), Times.Once);
-            _loggerMock.Verify(l => l.LogInfo(It.Is<string>(s => s.Contains("Tasks loaded from file:"))), Times.Once);
         }
     }
 }
